@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Implementation of the Tiny Encryption Algorithm (TEA).
  * The Tiny Encryption Algorithm is one of the fastest and most efficient
@@ -166,5 +168,9 @@ public class TEA {
         String test = new String(result);
         if (!test.equals(quote))
 		    throw new RuntimeException("Fail");
+        
+        System.out.println(Arrays.toString(original));
+        System.out.println(Arrays.toString(crypt));
+        System.out.println(Arrays.toString(result));
 	}
 }
