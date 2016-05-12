@@ -8,10 +8,10 @@ public class Transmit implements Protocols {
 		String quote = fileInput.nextLine();
 		
 		String key = "0000111122223333";
-		long[] keyBytes = Protocols.getKey(key);
+		byte[] keyBytes = Protocols.getKey(key);
 		
 		
-		long[][] v = new long[quote.length()/2][2];
+		byte[][] v = new byte[quote.length()/2][2];
 		for (int i = 0; i < v.length; i++) {
 			v[i][0] = quote.substring(i*2,i*2+1).getBytes()[0];
 			v[i][1] = quote.substring(i*2+1,i*2+2).getBytes()[0];
@@ -54,7 +54,7 @@ public class Transmit implements Protocols {
 		System.out.println("\nResultant string:");
 		System.out.println(result);
 	}
-	public static void print2DArray(long[][] n) {
+	public static void print2DArray(byte[][] n) {
 		for (int i = 0; i < n.length; i++) {
 			System.out.println(Arrays.toString(n[i]));
 		}

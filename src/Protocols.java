@@ -1,16 +1,16 @@
 public interface Protocols {
-	public static long[] getKey(String key) {
+	public static byte[] getKey(String key) {
 		byte[] keyBytes = key.getBytes();
-		long[] output = new long[4];
+		byte[] output = new byte[4];
 		for (int i = 0, j = 0; j < 4; j++) {
-			output[j] = ((keyBytes[i++] & 0xff)) | ((keyBytes[i++] & 0xff) << 8) | ((keyBytes[i++] & 0xff) << 16) | ((keyBytes[i++] & 0xff) << 24);
+			output[j] = (byte) (((keyBytes[i++] & 0xff)) | ((keyBytes[i++] & 0xff) << 8) | ((keyBytes[i++] & 0xff) << 16) | ((keyBytes[i++] & 0xff) << 24));
 		}
 		return output;
 	}
-	public static void encrypt(long[][] v, long[] k) {
+	public static void encrypt(byte[][] v, byte[] k) {
 		for (int i = 0; i < v.length; i++) {
-			long y = v[i][0];
-			long z = v[i][1];
+			byte y = v[i][0];
+			byte z = v[i][1];
 			long sum = 0;
 			final long delta = 0x9e3779b9;
 			int loops = 32;
@@ -23,10 +23,10 @@ public interface Protocols {
 			v[i][1] = z;
 		}
 	}
-	public static void decrypt(long[][] v, long[] k) {
+	public static void decrypt(byte[][] v, byte[] k) {
 		for (int i = 0; i < v.length; i++) {
-			long y = v[i][0];
-			long z = v[i][1];
+			byte y = v[i][0];
+			byte z = v[i][1];
 			long sum;
 			final long delta = 0x9e3779b9;
 			int loops = 32;
