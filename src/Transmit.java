@@ -1,62 +1,25 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Transmit implements Protocols {	//Implements Protocols interface.
-	public static void main (String[] args) throws Exception {
-		Scanner fileInput = new Scanner(new File("Input.txt")); //Takes in String or .txt file for encryption.
-		String quote = fileInput.nextLine();
-		
-		String key = "0000111122223333";	//Sets encryption key.
-		byte[] keyBytes = Protocols.getKey(key);
-		
-		
-		byte[][] v = new byte[quote.length()/2][2];
-		for (int i = 0; i < v.length; i++) {		//Converts quote into 2D array of byte values.
+public class Transmit implements Protocols {
+	public static void  StringEncryptor(String quote, String key) throws Exception {
+		File meh = new File("Input.txt");								//Output file
+		byte[] keyBytes = Protocols.getKey(key);						//Convert key to key byte array
+		byte[][] v = new byte[quote.length()/2][2];						//Instantiate 2D array to load in byte values
+		for (int i = 0; i < v.length; i++) {							//Converts quote into 2D array of byte values.
 			v[i][0] = quote.substring(i*2,i*2+1).getBytes()[0];
 			v[i][1] = quote.substring(i*2+1,i*2+2).getBytes()[0];
 		}
-		System.out.println("Original string:");
-		System.out.println(quote);		//Prints input string.
-		
-		System.out.println("Key:");
-		System.out.println(key);		//Prints current encryption key.
-		System.out.println("Key data");
-		System.out.println(Arrays.toString(keyBytes));		//Prints array of key.
-		System.out.println();
-		
-		System.out.println("Original data:");
-		print2DArray(v);	//Prints original string's ASCII values per character.
-		
-		Protocols.encrypt(v, keyBytes); //Encrypts data.
-		System.out.println("Encrypted data:");
-		print2DArray(v);	//Prints original string data after encryption occurs.
-		
-		String bleh = "";
+		Protocols.encrypt(v, keyBytes);									//Take key byte array and quote byte array and encrypt
+		PrintWriter writer = new PrintWriter(meh, "UTF-8");
 		for (int i = 0; i < v.length; i++) {
-			for (int j = 0; j < v[0].length; j++) {
-				bleh += (char)v[i][j];
+			for (int j = 0; j < v[0].length; j++) {						//Unload encrypted data into file
+				byte resulty = v[i][j];
+				writer.println(resulty);								//Output to file
 			}
 		}
-		System.out.println("Encrypted string:");
-		System.out.println(bleh);	//WIP
-		
-		Protocols.decrypt(v, keyBytes); //Decrypts data.
-		System.out.println("Decrypted data:");
-		print2DArray(v);	//Prints data after decryption.
-		
-		String result = "";
-		for (int i = 0; i < v.length; i++) {
-			for (int j = 0; j < v[0].length; j++) {
-				result += (char) v[i][j];
-			}
-		}
-		System.out.println("\nResultant string:");
-		System.out.println(result); 	//Prints the resulting String of the decryption.
-	}
-	public static void print2DArray(byte[][] n) {
-		for (int i = 0; i < n.length; i++) {
-			System.out.println(Arrays.toString(n[i]));
-		}
+		writer.close();
 	}
 }
